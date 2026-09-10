@@ -1,0 +1,294 @@
+@import "tailwindcss";
+
+/* Class-based dark mode (default dark). Toggled by ThemeContext on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Hidayah design language - "an app whose atmosphere follows the prayer day".
+  Refined editorial-nocturnal Islamic: ink base, brass-gold signature accent,
+  jade secondary, warm parchment text. Semantic vars flip per theme; Tailwind
+  utilities reference them through @theme inline so theme switching is runtime.
+*/
+
+:root,
+.dark {
+  /* ── Dark (default) ── */
+  --bg: #0a1411;
+  --bg-deep: #06100d;
+  --surface: #102019;
+  --card: #15281f;
+  --card-hi: #1b3328;
+  --border: rgba(201, 162, 75, 0.14);
+  --border-strong: rgba(201, 162, 75, 0.3);
+  --text: #f3eee0;
+  --text-soft: #cdd6cb;
+  --muted: #8fa298;
+  --gold: #d7b262;
+  --gold-soft: #eccd8a;
+  --gold-deep: #b98f3e;
+  --jade: #4bbf9c;
+  --jade-deep: #2c7a68;
+  --on-gold: #1a1206;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --grid-line: rgba(201, 162, 75, 0.05);
+}
+
+:root:not(.dark) {
+  /* ── Light (warm parchment) ── */
+  --bg: #f5efe1;
+  --bg-deep: #ece3d0;
+  --surface: #fbf6ea;
+  --card: #ffffff;
+  --card-hi: #fffdf8;
+  --border: rgba(58, 46, 22, 0.12);
+  --border-strong: rgba(58, 46, 22, 0.22);
+  --text: #1b2a23;
+  --text-soft: #33433a;
+  --muted: #6a7a70;
+  --gold: #9c742a;
+  --gold-soft: #b58f44;
+  --gold-deep: #7c5a1d;
+  --jade: #1f7a64;
+  --jade-deep: #14584a;
+  --on-gold: #fbf6ea;
+  --shadow: rgba(58, 46, 22, 0.14);
+  --grid-line: rgba(58, 46, 22, 0.045);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-deep: var(--bg-deep);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-card-hi: var(--card-hi);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-text-soft: var(--text-soft);
+  --color-muted: var(--muted);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-gold-deep: var(--gold-deep);
+  --color-jade: var(--jade);
+  --color-jade-deep: var(--jade-deep);
+  --color-on-gold: var(--on-gold);
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-body: var(--font-hanken), system-ui, sans-serif;
+  --font-arabic: var(--font-amiri), "Times New Roman", serif;
+  --font-bangla: var(--font-bangla), system-ui, sans-serif;
+
+  --radius-card: 1.25rem;
+
+  /* Height of the fixed mobile bottom nav (22px icon + 10px label + padding).
+     Full-height routes like /chat pad their composer by this instead of
+     hardcoding a magic number. */
+  --nav-h: 3.9rem;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Bangla glyphs pick up the Bangla font automatically when wrapped. */
+.font-bn {
+  font-family: var(--font-bangla);
+}
+
+img,
+video,
+iframe {
+  max-width: 100%;
+}
+
+/* ── Girih texture: faint 8-point-star tessellation laid over the page ── */
+.girih-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23c9a24b' stroke-opacity='0.5' stroke-width='1'%3E%3Cpath d='M40 4 48 16 64 16 56 28 64 40 48 40 40 52 32 40 16 40 24 28 16 16 32 16z'/%3E%3Cpath d='M40 28 52 40 40 52 28 40z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 80px 80px;
+}
+
+/* ── Atmosphere: gradient mood set per prayer window (see prayer-utils) ── */
+.atmo {
+  background:
+    radial-gradient(120% 100% at 80% -10%, var(--atmo-1, #1a3a4a) 0%, transparent 55%),
+    radial-gradient(120% 120% at 10% 110%, var(--atmo-2, #0a1411) 0%, transparent 60%),
+    var(--bg-deep);
+  transition: background 1.2s ease;
+}
+
+/* ── Animations ── */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-up {
+  animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.scale-in {
+  animation: scaleIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--card);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--gold) 9%, transparent),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes haloPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold) 40%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 14px color-mix(in srgb, var(--gold) 0%, transparent);
+  }
+}
+.halo-pulse {
+  animation: haloPulse 2.6s ease-out infinite;
+}
+
+/* Stagger helper for list reveals */
+.stagger > * {
+  opacity: 0;
+  animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Gold gradient text for display numerals/headings */
+.text-gilded {
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold-deep));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Arabic display */
+.arabic {
+  font-family: var(--font-arabic);
+  direction: rtl;
+  line-height: 2.1;
+}
+
+/* Hairline divider with a centered diamond - Islamic manuscript motif */
+.rule-diamond {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--gold);
+}
+.rule-diamond::before,
+.rule-diamond::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+
+/* Typing indicator for a pending AI reply. Always paired with a text label -
+   the reduced-motion block below freezes the animation, so the dots alone
+   would convey nothing. */
+@keyframes typingDot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+.typing-dot {
+  animation: typingDot 1.2s ease-in-out infinite;
+}
+.typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::after,
+  *::before {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

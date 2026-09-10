@@ -1,0 +1,15 @@
+{
+  "name": "Hidayah: Prayer Times, Quran & Qibla",
+  "short_name": "Hidayah",
+  "description": "Prayer times, qibla, Quran, duas, 99 Names, tasbih, hijri calendar and hadith.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a1411",
+  "theme_color": "#0a1411",
+  "orientation": "portrait",
+  "categories": ["lifestyle", "education"],
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

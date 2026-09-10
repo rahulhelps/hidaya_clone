@@ -1,0 +1,29 @@
+{
+  // Cloudflare Workers config for the Hidayah Next.js app, deployed via
+  // @opennextjs/cloudflare. See https://opennext.js.org/cloudflare
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hidayah",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-06-01",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".open-next/assets"
+  },
+  "routes": [
+    // Custom domain on the thinkfastbd.com zone. Cloudflare auto-creates the
+    // DNS record and SSL cert for this hostname on deploy.
+    { "pattern": "hidayah.thinkfastbd.com", "custom_domain": true }
+  ],
+  "observability": {
+    "enabled": true
+  }
+
+  // NEXT_PUBLIC_* values are baked in at `next build` time (not runtime), so set
+  // NEXT_PUBLIC_API_BASE_URL in the build environment, not here. Use a top-level
+  // "vars" block only for non-public runtime variables, e.g.:
+  // "vars": { "SOME_RUNTIME_FLAG": "value" }
+}
